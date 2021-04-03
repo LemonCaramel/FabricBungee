@@ -30,16 +30,6 @@ public class FabricProxy implements IMixinConfigPlugin {
             logger.info("BungeeCord support injected: {}", mixinClassName);
             return true;
         }
-
-        if (module.equals("velocity") && config.getVelocity()) {
-            if (config.getSecret().isEmpty()) {
-                logger.error("Error: velocity secret is empty!");
-            } else {
-                logger.info("Velocity support injected: {}", mixinClassName);
-                return true;
-            }
-        }
-
         return false;
     }
 

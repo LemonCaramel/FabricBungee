@@ -25,7 +25,12 @@ public abstract class ServerLoginNetworkHandlerMixin {
     @Shadow
     private GameProfile profile;
 
-    @Inject(method = "onHello", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD, target = "Lnet/minecraft/server/network/ServerLoginNetworkHandler;profile:Lcom/mojang/authlib/GameProfile;", shift = At.Shift.AFTER))
+    @Shadow
+    public abstract void acceptPlayer();
+
+    private boolean ready = false;
+
+    @Inject(method = "onHello", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD, target = "Lnet/minecraft/server/network/ServerLoginNetworkHandler;profile:Lcom/mojang/authlib/GameProfile;", shift = At.Shift.AFTER), cancellable = true)
     private void initUuid(CallbackInfo ci) {
         if (FabricProxy.config.getBungeeCord()) {
             if (((BungeeClientConnection) connection).getSpoofedUUID() == null) {
@@ -40,12 +45,17 @@ public abstract class ServerLoginNetworkHandlerMixin {
                     this.profile.getProperties().put(property.getName(), property);
                 }
             }
+            ready = true;
+            ci.cancel();
         }
     }
 
-    @Redirect(method = "onHello", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;isOnlineMode()Z"))
-    private boolean skipKeyPacket(MinecraftServer minecraftServer) {
-        return (bypassProxyBungee || !FabricProxy.config.getBungeeCord()) && minecraftServer.isOnlineMode();
+    @Inject(method = "tick", at = @At(value = "FIELD", target = "Lnet/minecraft/server/network/ServerLoginNetworkHandler;loginTicks:I"))
+    private void login(CallbackInfo ci) {
+        if (ready) {
+            ready = false;
+            acceptPlayer();
+        }
     }
     
     @Inject(method = "tick()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerLoginNetworkHandler;acceptPlayer()V"), cancellable = true)

@@ -1,11 +1,12 @@
 {
   "schemaVersion": 1,
-  "id": "fabricproxy",
+  "id": "fabricbungee",
   "version": "${version}",
-  "name": "FabricProxy",
-  "description": "Support forward player data from proxy",
+  "name": "FabricBungee",
+  "description": "Support forward player data from bungeecord proxy",
   "authors": [
-    "james58899"
+    "james58899",
+    "LemonCaramel"
   ],
   "contact": {
     "homepage": "https://github.com/OKTW-Network/FabricProxy",
@@ -18,8 +19,7 @@
   },
   "mixins": [
     "common.mixins.json",
-    "bungee.mixins.json",
-    "velocity.mixins.json"
+    "bungee.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.4.0",

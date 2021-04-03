@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public class ServerConfigHandlerMixin {
     @Redirect(method = "lookupProfile", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;isOnlineMode()Z"))
     private static boolean lookupProfile(MinecraftServer minecraftServer) {
-        if (FabricProxy.config.getBungeeCord() || FabricProxy.config.getVelocity()) {
+        if (FabricProxy.config.getBungeeCord()) {
             return true;
         }
 
