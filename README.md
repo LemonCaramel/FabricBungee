@@ -1,13 +1,11 @@
-# FabricProxy
-Fabric mod for support forward player data from proxy
+# FabricBungee
+Fabric mod for support forward player data from [BungeeCord](https://github.com/SpigotMC/BungeeCord) proxy
+ - This repository was created with reference to this [PR](https://github.com/OKTW-Network/FabricProxy/pull/15).
 
-## Deprecated
-**This mod no longer maintained, recommended to use [FabricProxy-Lite] instead.**
+## Warning!
+ - This mod is only used to test [Waterfall(support 1.17 Snapshot)](https://github.com/LemonCaramel/Waterfall).
+ - I do not guarantee normal game operation.
+ - If there is anything to modify in this repository, please write PR or issue.
 
-Because BungeeCord is not compatible with Fabric-API and most mods, I decided to drop BungeeCord support.
 
-And this mod using some mixin conflict with Fabric-API. That is why create [FabricProxy-Lite].
-
-This mod still work but will not actively maintain, pull request still accept.
-
-[FabricProxy-Lite]: https://github.com/OKTW-Network/FabricProxy-Lite
+ - I can't use English very well. :sob:
