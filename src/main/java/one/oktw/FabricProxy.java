@@ -13,7 +13,7 @@ import java.util.Set;
 
 public class FabricProxy implements IMixinConfigPlugin {
     public static ModConfig config;
-    private final Logger logger = LogManager.getLogger("FabricProxy");
+    private final Logger logger = LogManager.getLogger("FabricBungee");
 
     @Override
     public void onLoad(String mixinPackage) {
