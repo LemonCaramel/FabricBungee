@@ -4,7 +4,7 @@ Fabric mod for support forward player data from [BungeeCord](https://github.com/
 
 
 ## Screenshot
-![image](https://user-images.githubusercontent.com/45729082/116805171-849c2300-ab5f-11eb-938a-bdeffafc90a4.png)
+![unknown](https://user-images.githubusercontent.com/45729082/120292629-6e6cb880-c2ff-11eb-9d8d-839add43d2de.png)
 
 
 ## Warning!
