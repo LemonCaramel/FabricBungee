@@ -10,7 +10,7 @@
   ],
   "contact": {
     "homepage": "https://github.com/OKTW-Network/FabricProxy",
-    "sources": "https://github.com/OKTW-Network/FabricProxy"
+    "sources": "https://github.com/LemonCaramel/FabricBungee"
   },
   "license": "MIT",
   "environment": "*",
@@ -22,8 +22,10 @@
     "bungee.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.4.0",
-    "fabric": "*"
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.17.x",
+    "java": ">=16"
   },
   "suggests": {}
 }
