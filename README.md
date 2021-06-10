@@ -4,11 +4,11 @@ Fabric mod for support forward player data from [BungeeCord](https://github.com/
 
 
 ## Screenshot
-![unknown](https://user-images.githubusercontent.com/45729082/120292629-6e6cb880-c2ff-11eb-9d8d-839add43d2de.png)
+![image](https://user-images.githubusercontent.com/45729082/121571406-efddec80-ca5d-11eb-891e-03f76f510eab.png)
 
 
 ## Warning!
- - This mod is only used to test [Waterfall(support 1.17 Snapshot)](https://github.com/LemonCaramel/Waterfall).
+ - This mod is only used to test [Waterfall(support Snapshot)](https://github.com/LemonCaramel/Waterfall).
 - [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files) is required to use this.
  - I do not guarantee normal game operation.
  - If there is anything to modify in this repository, please write PR or issue.
