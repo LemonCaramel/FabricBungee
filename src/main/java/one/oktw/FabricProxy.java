@@ -13,7 +13,7 @@ import java.util.Set;
 
 public class FabricProxy implements IMixinConfigPlugin {
     public static ModConfig config;
-    private final Logger logger = LogManager.getLogger("FabricBungee");
+    private final Logger logger = LogManager.getLogger("FabricProxy");
 
     @Override
     public void onLoad(String mixinPackage) {
@@ -30,6 +30,16 @@ public class FabricProxy implements IMixinConfigPlugin {
             logger.info("BungeeCord support injected: {}", mixinClassName);
             return true;
         }
+
+        if (module.equals("velocity") && config.getVelocity()) {
+            if (config.getSecret().isEmpty()) {
+                logger.error("Error: velocity secret is empty!");
+            } else {
+                logger.info("Velocity support injected: {}", mixinClassName);
+                return true;
+            }
+        }
+
         return false;
     }
 

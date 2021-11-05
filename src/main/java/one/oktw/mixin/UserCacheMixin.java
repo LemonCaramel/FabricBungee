@@ -13,7 +13,7 @@ public class UserCacheMixin {
 
     @Redirect(method = "findProfileByName", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/UserCache;shouldUseRemote()Z"))
     private static boolean findProfileByName() {
-        if (FabricProxy.config.getBungeeCord()) {
+        if (FabricProxy.config.getBungeeCord() || FabricProxy.config.getVelocity()) {
             return true;
         }
         return useRemote;

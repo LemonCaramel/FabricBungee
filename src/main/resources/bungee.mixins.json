@@ -1,6 +1,5 @@
 {
   "required": true,
-  "minVersion": "0.8",
   "package": "one.oktw.mixin.bungee",
   "compatibilityLevel": "JAVA_16",
   "plugin": "one.oktw.FabricProxy",

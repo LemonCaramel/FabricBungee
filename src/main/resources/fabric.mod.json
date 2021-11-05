@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "fabricbungee",
+  "id": "fabricproxy",
   "version": "${version}",
-  "name": "FabricBungee",
-  "description": "Support forward player data from bungeecord proxy",
+  "name": "FabricProxy",
+  "description": "Support forward player data from proxy",
   "authors": [
     "james58899",
     "LemonCaramel"
@@ -19,7 +19,8 @@
   },
   "mixins": [
     "common.mixins.json",
-    "bungee.mixins.json"
+    "bungee.mixins.json",
+    "velocity.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.12.4",
