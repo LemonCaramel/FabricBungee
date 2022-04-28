@@ -8,7 +8,6 @@ import net.minecraft.network.packet.c2s.login.LoginHelloC2SPacket;
 import net.minecraft.network.packet.c2s.login.LoginQueryResponseC2SPacket;
 import net.minecraft.network.packet.s2c.login.LoginQueryRequestS2CPacket;
 import net.minecraft.server.network.ServerLoginNetworkHandler;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import one.oktw.FabricProxy;
 import one.oktw.VelocityLib;
@@ -47,7 +46,7 @@ public abstract class ServerLoginNetworkHandlerMixin {
 
     @SuppressWarnings("ConstantConditions")
     @Inject(method = "onHello",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/network/packet/c2s/login/LoginHelloC2SPacket;getProfile()Lcom/mojang/authlib/GameProfile;"),
+            at = @At(value = "INVOKE", target = "Lcom/mojang/authlib/GameProfile;<init>(Ljava/util/UUID;Ljava/lang/String;)V"),
             cancellable = true)
     private void sendVelocityPacket(LoginHelloC2SPacket loginHelloC2SPacket, CallbackInfo ci) {
         // Bypass BungeeCord connection
@@ -56,9 +55,7 @@ public abstract class ServerLoginNetworkHandlerMixin {
         }
 
         if (!bypassProxyVelocity && !ready) {
-            if (FabricProxy.config.getAllowBypassProxy()) {
-                loginPacket = loginHelloC2SPacket;
-            }
+            this.loginPacket = loginHelloC2SPacket;
             this.velocityLoginQueryId = java.util.concurrent.ThreadLocalRandom.current().nextInt();
             LoginQueryRequestS2CPacket packet = new LoginQueryRequestS2CPacket(
                     velocityLoginQueryId,
@@ -81,7 +78,7 @@ public abstract class ServerLoginNetworkHandlerMixin {
             PacketByteBuf buf = ((LoginQueryResponseC2SPacketAccessor) packet).getResponse();
             if (buf == null) {
                 if (!FabricProxy.config.getAllowBypassProxy()) {
-                    disconnect(new LiteralText("This server requires you to connect with Velocity."));
+                    disconnect(Text.literal("This server requires you to connect with Velocity."));
                     return;
                 }
 
@@ -92,7 +89,7 @@ public abstract class ServerLoginNetworkHandlerMixin {
             }
 
             if (!VelocityLib.checkIntegrity(buf)) {
-                disconnect(new LiteralText("Unable to verify player details"));
+                disconnect(Text.literal("Unable to verify player details"));
                 return;
             }
 
@@ -101,7 +98,7 @@ public abstract class ServerLoginNetworkHandlerMixin {
             profile = VelocityLib.createProfile(buf);
 
             ready = true;
-            onHello(new LoginHelloC2SPacket(profile));
+            onHello(new LoginHelloC2SPacket(profile.getName(), this.loginPacket.publicKey()));
             ci.cancel();
         }
     }

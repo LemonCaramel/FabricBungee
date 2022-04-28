@@ -8,7 +8,6 @@ import net.minecraft.network.NetworkState;
 import net.minecraft.network.packet.c2s.handshake.HandshakeC2SPacket;
 import net.minecraft.network.packet.s2c.login.LoginDisconnectS2CPacket;
 import net.minecraft.server.network.ServerHandshakeNetworkHandler;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import one.oktw.interfaces.BungeeClientConnection;
 import one.oktw.mixin.ClientConnectionAccessor;
@@ -42,7 +41,7 @@ public class ServerHandshakeNetworkHandlerMixin {
                 }
             } else {
                 if (!config.getAllowBypassProxy()) {
-                    Text disconnectMessage = new LiteralText("If you wish to use IP forwarding, please enable it in your BungeeCord config as well!");
+                    Text disconnectMessage = Text.literal("If you wish to use IP forwarding, please enable it in your BungeeCord config as well!");
                     connection.send(new LoginDisconnectS2CPacket(disconnectMessage));
                     connection.disconnect(disconnectMessage);
                 }
