@@ -13,6 +13,7 @@ import one.oktw.FabricProxy;
 import one.oktw.VelocityLib;
 import one.oktw.interfaces.BungeeClientConnection;
 import one.oktw.mixin.ClientConnectionAccessor;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -37,6 +38,7 @@ public abstract class ServerLoginNetworkHandlerMixin {
 
     @Shadow
     private GameProfile profile;
+    private GameProfile cacheProfile;
 
     @Shadow
     public abstract void disconnect(Text text);
@@ -46,7 +48,7 @@ public abstract class ServerLoginNetworkHandlerMixin {
 
     @SuppressWarnings("ConstantConditions")
     @Inject(method = "onHello",
-            at = @At(value = "INVOKE", target = "Lcom/mojang/authlib/GameProfile;<init>(Ljava/util/UUID;Ljava/lang/String;)V"),
+            at = @At(value = "INVOKE", target = "Lcom/mojang/authlib/GameProfile;<init>(Ljava/util/UUID;Ljava/lang/String;)V", remap = false),
             cancellable = true)
     private void sendVelocityPacket(LoginHelloC2SPacket loginHelloC2SPacket, CallbackInfo ci) {
         // Bypass BungeeCord connection
@@ -64,6 +66,17 @@ public abstract class ServerLoginNetworkHandlerMixin {
             );
             connection.send(packet);
             ci.cancel();
+        }
+    }
+
+    @Inject(method = "onHello", at = @At(
+        value = "FIELD", opcode = Opcodes.PUTFIELD,
+        target = "Lnet/minecraft/server/network/ServerLoginNetworkHandler;profile:Lcom/mojang/authlib/GameProfile;",
+        shift = At.Shift.AFTER, ordinal = 1
+    ))
+    private void skipCreateProfile(LoginHelloC2SPacket packet, CallbackInfo ci) {
+        if (FabricProxy.config.getVelocity()) {
+            this.profile = this.cacheProfile;
         }
     }
 
@@ -95,7 +108,8 @@ public abstract class ServerLoginNetworkHandlerMixin {
 
             ((ClientConnectionAccessor) connection).setAddress(new java.net.InetSocketAddress(VelocityLib.readAddress(buf), ((java.net.InetSocketAddress) connection.getAddress()).getPort()));
 
-            profile = VelocityLib.createProfile(buf);
+            this.profile = VelocityLib.createProfile(buf);
+            this.cacheProfile = this.profile;
 
             ready = true;
             onHello(new LoginHelloC2SPacket(profile.getName(), this.loginPacket.publicKey()));
